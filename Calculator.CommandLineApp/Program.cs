@@ -7,25 +7,13 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        //Test funktionalitet
-        //Console.WriteLine("Testing Calculator Operations:");
-        //Console.WriteLine($"Addition of 5 and 25: {_calculator.Add(5, 25)}");
-        //Console.WriteLine($"Subtraction of 25 from 5: {_calculator.Subtract(5, 25)}");
-        //Console.WriteLine($"Multiplication of 5 and 25: {_calculator.Multiply(5, 25)}");
-        //Console.WriteLine($"Division of 25 by 5: {_calculator.Divide(25, 5)}");
-
-        //Inspicer antallet af argumenter
+        
  
         if (!ValidateArguments(args))
         {
             ShowInstructions();
             return;
 
-        }
-
-        for (int i = 0; i < args.Length; i++)
-        {
-            Console.WriteLine($"Arguments {i + 1}: {args[i]}");
         }
 
         try
@@ -65,14 +53,14 @@ internal class Program
         return float.Parse(argument);
     }
 
-    private static float PerformOperation(CalcLib.Calculator _calculator, float number1, float number2, string operation)
+    private static float PerformOperation(CalcLib.Calculator calculator, float number1, float number2, string operation)
     {
         return operation switch
         {
-            "+" => _calculator.Add(number1, number2),
-            "-" => _calculator.Subtract(number1, number2),
-            "*" => _calculator.Multiply(number1, number2),
-            "/" => _calculator.Divide(number1, number2),
+            "+" => calculator.Add(number1, number2),
+            "-" => calculator.Subtract(number1, number2),
+            "*" => calculator.Multiply(number1, number2),
+            "/" => calculator.Divide(number1, number2),
             _ => throw new InvalidOperationException($"Invalid operator '{operation}'. Please use: +, -, *, /"),
         };
     }
