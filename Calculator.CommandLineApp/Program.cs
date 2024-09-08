@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using CalcLib = Calculator.ClassLibrary;
 namespace Calculator.CommandLineApp;
@@ -7,8 +8,11 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        
- 
+        ValidateAndCalculate(args);
+    }
+
+    private static void ValidateAndCalculate(string[] args)
+    {
         if (!ValidateArguments(args))
         {
             ShowInstructions();
@@ -16,6 +20,13 @@ internal class Program
 
         }
 
+        ProcessCalculation(args);
+
+    }
+    
+
+    private static void ProcessCalculation(string[] args)
+    {
         try
         {
             float number1 = ParseArgument(args[0]);
@@ -35,8 +46,8 @@ internal class Program
         {
             Console.WriteLine($"An error occured: {ex.Message}");
         }
-    }
 
+    }
     private static bool ValidateArguments(string[] args)
     {
         return args.Length == 3;
@@ -67,3 +78,7 @@ internal class Program
 
 
 }
+
+//Noter til Solution
+//Error handling hvis noget ikke kan parses som float?
+//Single responsibility  - entry metoden er nemt at forstå, men gør flere ting.
