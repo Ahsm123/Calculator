@@ -1,49 +1,99 @@
-using CalcLib = Calculator.ClassLibrary;
+using Calculator.ClassLibrary;
 namespace Calculator.GUI
 {
     public partial class Form1 : Form
     {
+        private CalculatorLogic _calculator;
+        private float _operand1;
+        private float _operand2;
+        private string _operator;
+
         public Form1()
         {
             InitializeComponent();
+            _calculator = new CalculatorLogic();
         }
 
-        private void BtnCalculate_Click(object sender, EventArgs e)
+        private void btnOperator_Click(object sender, EventArgs e)
         {
-            try
+            if (txtboxDisplay.Text != string.Empty)
             {
-                float number1 = float.Parse(txtBox1.Text);
-                float number2 = float.Parse(txtBox2.Text);
-                string operation = comboBoxOperation.SelectedItem.ToString();
+                _operand1 = float.Parse(txtboxDisplay.Text);
+                Button btn = sender as Button;
+                _operator = btn.Text;
+                txtboxDisplay.Clear();
 
-                var _calculator = new CalcLib.Calculator();
-                float result = PerformOperation(_calculator, number1, number2, operation);
-
-                lblResult.Text = $"{result}";
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine($"Error parsing numbers: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occured: {ex.Message}");
             }
         }
 
-        private float PerformOperation(CalcLib.Calculator calculator, float number1, float number2, string operation)
+        private void NumberButton_Click(object sender, EventArgs e)
         {
-            return operation switch
+            Button button = sender as Button;
+
+            if (button != null)
             {
-                "+" => calculator.Add(number1, number2),
-                "-" => calculator.Subtract(number1, number2),
-                "*" => calculator.Multiply(number1, number2),
-                "/" => calculator.Divide(number1, number2),
-                _ => throw new InvalidOperationException("Invalid operator")
-            };
+                if (button.Text == ".")
+                {
+                    if (!txtboxDisplay.Text.Contains("."))
+                    {
+                        txtboxDisplay.Text += ",";
+                    }
+                }
+                else
+                {
+                    txtboxDisplay.Text += button.Text;
+                }
+
+                txtboxDisplay.Refresh();
+            }
         }
 
-        private void comboBoxOperation_SelectedIndexChanged(object sender, EventArgs e)
+
+
+        private void btbClear_Click(object sender, EventArgs e)
+        {
+            txtboxDisplay.Clear();
+            _operand1 = 0;
+            _operand2 = 0;
+            _operator = string.Empty;
+        }
+
+        private void btnEquals_Click(object sender, EventArgs e)
+        {
+            _operand2 = float.Parse(txtboxDisplay.Text);
+
+            float result = 0;
+
+            switch (_operator)
+            {
+                case "+":
+                    result = _calculator.Add(_operand1, _operand2);
+                    break;
+                case "-":
+                    result = _calculator.Subtract(_operand1, _operand2);
+                    break;
+                case "*":
+                    result = _calculator.Multiply(_operand1, _operand2);
+                    break;
+                case "/":
+                    if (_operand2 != 0)
+                    {
+                        result = _calculator.Divide(_operand1, _operand2);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot divide by zero");
+                        return;
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Invalid operator");
+                    break;
+            }
+            txtboxDisplay.Text = result.ToString();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }

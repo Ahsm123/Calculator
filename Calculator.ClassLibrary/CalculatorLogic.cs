@@ -1,6 +1,6 @@
 ﻿namespace Calculator.ClassLibrary;
 
-public class Calculator
+public class CalculatorLogic
 {
     public float Add(float firstNumber, float secondNumber) => firstNumber + secondNumber;
     public float Subtract(float firstNumber, float secondNumber) => firstNumber - secondNumber;

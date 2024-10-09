@@ -33,7 +33,7 @@ internal class Program
             float number2 = ParseArgument(args[2]);
             string operation = args[1];
 
-            var _calculator = new CalcLib.Calculator();
+            var _calculator = new CalcLib.CalculatorLogic();
             float result = PerformOperation(_calculator, number1, number2, operation);
 
             Console.WriteLine($"Result of {number1} {operation} {number2} = {result}");
@@ -64,7 +64,7 @@ internal class Program
         return float.Parse(argument);
     }
 
-    private static float PerformOperation(CalcLib.Calculator calculator, float number1, float number2, string operation)
+    private static float PerformOperation(CalcLib.CalculatorLogic calculator, float number1, float number2, string operation)
     {
         return operation switch
         {
